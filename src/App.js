@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { useContext } from 'react';
+
+import { PeerToPeerContext } from './providers/PeerToPeerContext';
+
+import ChatForm from './components/ChatForm';
+import DisplayName from './components/DisplayName';
+import Messages from './components/Messages';
+import Status from './components/Status';
+
+import useConnectViaParams from './hooks/useConnectViaParams';
 
 function App() {
+  const { peerId } = useContext(PeerToPeerContext);
+  useConnectViaParams();
+
+  if (!peerId) {
+    return (
+      <p>Loading...</p>
+    );
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Messages/>
+      <ChatForm/>
+      <Status/>
+      <DisplayName/>
+    </>
   );
 }
 
